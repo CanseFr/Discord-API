@@ -1,0 +1,11 @@
+
+
+Notification & Subscribe (user channel) sont lié
+Subscribe au notification
+
+
+ROLE :
+User type possede le role User a index 1
+Admin type possede le role Admin a index 1
+
+User admin est toujours user car user index 1 ....

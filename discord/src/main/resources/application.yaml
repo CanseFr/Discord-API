@@ -1,0 +1,40 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/discord_db?serverTimezone=UTC&createDatabaseIfNotExist=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: Rootoorn
+
+  profiles:
+    active : dev
+
+  sql:
+    init:
+      platform: mysql
+      mode: always
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+#    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    defer-datasource-initialization: true
+
+springdoc:
+  default-produces-media-type: application/json
+
+udeesa:
+  email:
+    sender:
+      host : smtp.gmail.com
+      debug : true
+      user : julien.cansell@stagiairesmns.fr
+      password : zizfumgwafpwfdoa
+
+
+
+
