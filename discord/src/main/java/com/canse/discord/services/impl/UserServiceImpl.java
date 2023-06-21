@@ -63,7 +63,6 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public void delete(Integer id) {
-        // Verifier id avant supression
         userRepository.deleteById(id);
     }
 
@@ -98,13 +97,11 @@ public class UserServiceImpl implements UserService {
         roleList.add(role.get());
         user.setRoles(roleList);
 
-
         var savedUser =  userRepository.save(user);
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", savedUser.getId());
         claims.put("fullname", savedUser.getFirstname() + " " + savedUser.getLastname());
-
 
         String token = jwtUtils.generateToken(savedUser,claims);
         return AuthenticationResponse.builder()
@@ -136,7 +133,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAllUserByGroupeId(Integer idGroupe) {return userRepository.findAllUserByGroupeId(idGroupe);}
+    public List<User> findAllUserByGroupeId(Integer idGroupe) {
+        return userRepository.findAllUserByGroupeId(idGroupe);
+    }
 
 
     private Role findOrCreateRole(String roleName){
@@ -205,7 +204,7 @@ public class UserServiceImpl implements UserService {
             Role role = roleRepository.findFirstById(2);
 
             // Add To Database
-            // TODO : Transaction ? , find strategy canceled complete/partial with error returned ?
+            // TODO : Transaction ? , rollback on complete or partial error  ?
             for(var user: userDtoList){
                 User u = new User();
                 u.setEmail(user.getEmail());

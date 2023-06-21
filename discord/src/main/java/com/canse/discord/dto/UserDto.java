@@ -23,7 +23,7 @@ public class UserDto {
     @NotNull(message = "Le password ne peut pas etre null")
     @NotEmpty(message = "Le password ne peut pas etre vide")
     @NotBlank(message = "Le password ne peut pas contenir d'éspace")
-    //@Size(min = 8, max = 20)
+    @Size(min = 8, max = 20)
     private String password;
     @NotNull(message = "Le lastname ne peut pas etre null")
     @NotEmpty(message = "Le lastname ne peut pas etre vide")
