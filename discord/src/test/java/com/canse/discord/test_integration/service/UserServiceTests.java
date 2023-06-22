@@ -1,19 +1,27 @@
-package com.canse.discord.service;
+package com.canse.discord.test_integration.service;
 import com.canse.discord.dto.UserDto;
 import com.canse.discord.exceptions.ObjectValidationException;
 import com.canse.discord.models.Role;
 import com.canse.discord.services.UserService;
+import com.canse.discord.services.impl.UserServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -25,7 +33,6 @@ public class UserServiceTests {
     @Test
     public void shoudSaveUserWithSuccess(){                                                               // Success All
         UserDto excpectedUser = UserDto.builder()
-                .id(1)
                 .active(true)
                 .email("test1@test.test")
                 .roles(new ArrayList<>(List.of(new Role(1,"ROLE_ADMIN"))))
@@ -221,7 +228,4 @@ public class UserServiceTests {
         Assertions.assertThrows(DataIntegrityViolationException.class, () -> userService.save(excpectedUser2));
 
     }
-
-
-
 }

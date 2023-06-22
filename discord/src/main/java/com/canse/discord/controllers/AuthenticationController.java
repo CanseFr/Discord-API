@@ -26,12 +26,13 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody UserDto user){
-        System.out.println(user.toString());
         return ResponseEntity.ok(userService.register(user));
     }
 
+
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request){
-        return ResponseEntity.ok(userService.authenticate(request));
+        return userService.authenticate(request);
     }
+
 }

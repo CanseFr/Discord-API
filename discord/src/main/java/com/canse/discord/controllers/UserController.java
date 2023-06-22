@@ -85,22 +85,23 @@ public class UserController {
     }
 
     @DeleteMapping("/{user-id}")
+    @RolesAllowed("ROLE_ADMIN")
     public ResponseEntity<UserDto> delete (@PathVariable("user-id") Integer userId){
         service.delete(userId);
         return ResponseEntity.accepted().build();
     }
 
 
-    // REGISTER AND AUTHENTICATE
-    @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register (@RequestBody UserDto user){
-        return ResponseEntity.ok(service.register(user));
-    }
-
-    @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate (@RequestBody AuthenticationRequest request){
-        return ResponseEntity.ok(service.authenticate(request));
-    }
+//    // REGISTER AND AUTHENTICATE
+//    @PostMapping("/register")
+//    public ResponseEntity<AuthenticationResponse> register (@RequestBody UserDto user){
+//        return ResponseEntity.ok(service.register(user));
+//    }
+//
+//@PostMapping("/authenticate")
+//public ResponseEntity<?> authenticate (@RequestBody AuthenticationRequest request){
+//    return ResponseEntity.ok(service.authenticate(request));
+//}
 
 }
 

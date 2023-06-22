@@ -17,8 +17,10 @@ import com.canse.discord.validators.ObjectsValidator;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -109,23 +111,31 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
-
-    @Override
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword())
-        );
-        final User user= (User) userRepository.findByEmail(request.getEmail()).get();
-
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("userId", user.getId());
-        claims.put("fullName", user.getFirstname() + " " + user.getLastname());
-
-        final String token = jwtUtils.generateToken(user,claims);
-        return AuthenticationResponse.builder()
-                .token(token)
-                .build();
+@Override
+public ResponseEntity<AuthenticationResponse> authenticate(AuthenticationRequest request) {
+    final User user;
+    // CHECK MAIL
+    try{
+        user= (User) userRepository.findByEmail(request.getEmail()).get();
+    } catch (Exception e){
+        return ResponseEntity.notFound().build();
     }
+
+    // CHECK Auth Mdp
+    try{
+        authManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword()));
+    } catch (AuthenticationException e){
+        return ResponseEntity.badRequest().build();
+    }
+
+    // Si ok
+    Map<String, Object> claims = new HashMap<>();
+    claims.put("userId", user.getId());
+    claims.put("fullName", user.getFirstname() + " " + user.getLastname());
+    final String token = jwtUtils.generateToken(user,claims);
+
+    return ResponseEntity.ok( AuthenticationResponse.builder().token(token).build());
+}
 
     @Override
     public List<User> findUserByGroupeName(String groupe) {

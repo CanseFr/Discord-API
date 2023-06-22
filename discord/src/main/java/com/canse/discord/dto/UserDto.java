@@ -9,9 +9,9 @@ import org.hibernate.validator.constraints.Length;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
     private Integer id;
@@ -23,27 +23,56 @@ public class UserDto {
     @NotNull(message = "Le password ne peut pas etre null")
     @NotEmpty(message = "Le password ne peut pas etre vide")
     @NotBlank(message = "Le password ne peut pas contenir d'éspace")
-    @Size(min = 8, max = 20)
+    @Size(min = 8, message = "Le password doit contenir minimum 8 characteres")
+    @Size(max = 20, message = "Le password doit contenir maximum 20 characteres")
     private String password;
     @NotNull(message = "Le lastname ne peut pas etre null")
     @NotEmpty(message = "Le lastname ne peut pas etre vide")
     @NotBlank(message = "Le lastname ne peut pas contenir d'éspace")
+    @Size(min = 3, message = "Le prénom doit contenir minimum 3 characteres")
+    @Size(max = 20, message = "Le prénom doit contenir maximum 20 characteres")
     private String lastname;
     @NotNull(message = "Le firstname ne peut pas etre null")
     @NotEmpty(message = "Le firstname ne peut pas etre vide")
     @NotBlank(message = "Le firstname ne peut pas contenir d'éspace")
+    @Size(min = 3, message = "Le nom doit contenir minimum 3 characteres")
+    @Size(max = 20, message = "Le nom doit contenir maximum 20 characteres")
     private String firstname;
     //@NotNull(message = "Le role ne peut pas etre null")
     //@NotEmpty(message = "Le role ne peut pas etre vide")
     private boolean active;
     private List<Role> roles;
     private List<Notification> notificationList;
-    //private List<Channel> subscribeToChannel;
-//    private List<Channel> memberToChannel;
+    //    private List<Channel> subscribeToChannel;
+    //    private List<Channel> memberToChannel;
 
-// Json Front
     private String channel;
     private String groupe;
+
+    //______________________________________________________________________________________________________________
+    //                                                  SETTER : Format Input
+    //______________________________________________________________________________________________________________
+
+    public void setEmail(String email) {
+        String trimedString = email.trim().toLowerCase();
+        this.email = trimedString.trim().substring(0, 1).toUpperCase() + trimedString.substring(1);
+    }
+
+
+    public void setLastname(String lastname) {
+        String trimedString = lastname.trim().toLowerCase();
+        this.lastname = trimedString.trim().substring(0, 1).toUpperCase() + trimedString.substring(1);
+    }
+
+    public void setFirstname(String firstname) {
+        String trimedString = firstname.trim().toLowerCase();
+        this.firstname = trimedString.trim().substring(0, 1).toUpperCase() + trimedString.substring(1);
+    }
+
+
+    //_______________________________________________________________________________________________________________
+    //                                                  BUILDER
+    //_______________________________________________________________________________________________________________
 
 
     public static UserDto fromEntity(User user){
