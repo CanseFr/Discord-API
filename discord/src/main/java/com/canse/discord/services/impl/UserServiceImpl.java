@@ -50,6 +50,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user).getId();
     }
+
     @Override
     public List<UserDto> findAll() {
         return userRepository.findAll()

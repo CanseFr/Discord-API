@@ -133,7 +133,6 @@ public class UserServiceTests {
     @Test
     public void OnSaveEmailSpaceInDefault_ThrowObjectValidationException(){
         UserDto excpectedUser = UserDto.builder()
-                .id(1)
                 .active(true)
                 .email("test @test.test")
                 .roles(new ArrayList<>(List.of(new Role(1,"ROLE_ADMIN"))))
