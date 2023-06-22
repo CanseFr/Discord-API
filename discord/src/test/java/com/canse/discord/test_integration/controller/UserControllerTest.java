@@ -1,29 +1,15 @@
 package com.canse.discord.test_integration.controller;
-import com.canse.discord.dto.UserDto;
-import com.canse.discord.dto.auth.AuthenticationRequest;
-import com.canse.discord.models.Role;
-import com.canse.discord.models.User;
 import com.canse.discord.services.impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.junit.jupiter.api.BeforeEach;
-import org.springframework.test.web.servlet.ResultMatcher;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -33,16 +19,12 @@ public class UserControllerTest {
 
     @Autowired
     private WebApplicationContext context;
-
     private MockMvc mvc;
-    @MockBean
-    private UserServiceImpl userService;
 
     @BeforeEach
     public void init() throws Exception {
         this.mvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
     }
-
 
     // DELETE
     @Test
@@ -64,7 +46,7 @@ public class UserControllerTest {
     // GET
     @Test
     @WithMockUser(roles = {"ADMIN"})
-    void adminGetUserUrlListeUSer_WithSuccess() throws Exception {
+    void adminGetUserList_WithSuccess() throws Exception {
         mvc.perform(get("/user/")).andExpect(status().isOk());
     }
     @Test
@@ -75,18 +57,18 @@ public class UserControllerTest {
 
     @Test
     @WithMockUser(roles = {"ADMIN"})
-    void adminGetUserListeUSer_WithSuccess() throws Exception {
+    void adminGetUserListe_WithSuccess() throws Exception {
         mvc.perform(get("/user/")).andExpect(status().isOk());
     }
 
     @Test
     @WithMockUser(roles = {"USER"})
-    void UserGetUserUrlListeUSer_WithSuccess() throws Exception {
+    void UserGetUseList_WithSuccess() throws Exception {
         mvc.perform(get("/user/")).andExpect(status().isOk());
     }
 
     @Test
-    void utilisateurNonConectéGetUserlListeUSer_Exception() throws Exception {
+    void undefinedUserGetUserlList_Exception() throws Exception {
         mvc.perform(get("/user/")).andExpect(status().isForbidden());
     }
 

@@ -21,7 +21,7 @@ public class ChannelDto {
     @NotEmpty(message = "Le name ne peut pas etre vide")
     @NotBlank(message = "Le name ne peut pas contenir d'éspace")
     @Size(min = 2, message = "Le nom du groupe doit contenir un minimum de 2 characteres")
-    @Size(max = 8, message = "Le nom du groupe doit contenir un maximum de 8 characteres")
+    @Size(max = 7, message = "Le nom du groupe doit contenir un maximum de 7 characteres")
     private String name;
     @NotNull(message = "La vidibilité du channel ne peut pas etre null")
     @NotEmpty(message = "La vidibilité du channel ne peut pas etre vide")
@@ -42,11 +42,9 @@ public class ChannelDto {
         this.name = trimedString.trim().substring(0, 1).toUpperCase() + trimedString.substring(1);
     }
 
-
     //__________________________________________________________________________________________________________________
     //                                                   METHODE
     //__________________________________________________________________________________________________________________
-
 
     public static ChannelDto fromEntity(Channel channel){
         return ChannelDto.builder()
@@ -60,7 +58,7 @@ public class ChannelDto {
     public static Channel toEntity(ChannelDto channel){
         return Channel.builder()
                 .id(channel.getId())
-                .name(channel.getName())
+                .name(channel.getName().trim())
                 .visibility(channel.getVisibility())
                 .messages(channel.getMessages())
 //                .meetings(channel.getMeetings())

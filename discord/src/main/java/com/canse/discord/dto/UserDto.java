@@ -93,9 +93,9 @@ public class UserDto {
     public static User toEntity(UserDto userDto){
         return User.builder()
                 .id(userDto.getId())
-                .firstname(userDto.getFirstname().trim().toLowerCase())
-                .lastname(userDto.getLastname().trim().toLowerCase())
-                .email(userDto.getEmail())
+                .firstname(userDto.getFirstname().trim())
+                .lastname(userDto.getLastname().trim())
+                .email(userDto.getEmail().trim())
                 .password(userDto.getPassword())
                 .build();
     }

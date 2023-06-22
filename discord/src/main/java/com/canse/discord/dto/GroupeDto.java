@@ -22,7 +22,7 @@ public class GroupeDto {
     @NotEmpty(message = "Le name ne peut pas etre vide")
     @NotBlank(message = "Le name ne peut pas contenir d'éspace")
     @Size(min = 2, message = "Le nom du groupe doit contenir un minimum de 2 characteres")
-    @Size(max = 8, message = "Le nom du groupe doit contenir un maximum de 8 characteres")
+    @Size(max = 7, message = "Le nom du groupe doit contenir un maximum de 7 characteres")
     private String name;
     private List<User> user;
 
@@ -62,7 +62,7 @@ public class GroupeDto {
     public static Groupe toEntity(GroupeDto groupe){
         return Groupe.builder()
                 .id(groupe.getId())
-                .name(groupe.getName())
+                .name(groupe.getName().trim())
                 .user(groupe.getUser())
                 .build();
     }

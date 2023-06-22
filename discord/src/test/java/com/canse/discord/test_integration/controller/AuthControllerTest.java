@@ -1,19 +1,13 @@
 package com.canse.discord.test_integration.controller;
 
-import com.canse.discord.dto.UserDto;
-import com.canse.discord.services.impl.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -25,15 +19,13 @@ public class AuthControllerTest {
 	private WebApplicationContext context;
 	private MockMvc mvc;
 
-
 	@BeforeEach
 	public void init() throws Exception {
 		this.mvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
 	}
 
-
 	@Test
-	public void testLoginRight_Success() throws Exception {
+	public void testLoginRightEmail_Success() throws Exception {
 
 		String loginRequestJson = "{\"email\":\"admin@admin.admin\",\"password\":\"testtesttest\"}";
 

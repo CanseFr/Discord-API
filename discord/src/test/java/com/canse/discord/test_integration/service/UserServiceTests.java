@@ -3,25 +3,17 @@ import com.canse.discord.dto.UserDto;
 import com.canse.discord.exceptions.ObjectValidationException;
 import com.canse.discord.models.Role;
 import com.canse.discord.services.UserService;
-import com.canse.discord.services.impl.UserServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -31,7 +23,7 @@ public class UserServiceTests {
     private UserService userService;
 
     @Test
-    public void shoudSaveUserWithSuccess(){                                                               // Success All
+    public void shoudSaveUserWithSuccess(){
         UserDto excpectedUser = UserDto.builder()
                 .active(true)
                 .email("test1@test.test")
@@ -46,7 +38,7 @@ public class UserServiceTests {
     }
 
     @Test
-    public void shoudFindUserByIdWithSuccess(){                                                    // Success Find By Id
+    public void shoudFindUserById_Success(){
         UserDto excpectedUser = UserDto.builder()
                 .id(3)
                 .active(true)
@@ -64,11 +56,10 @@ public class UserServiceTests {
         Assertions.assertNotNull(savedUser.getEmail());
         Assertions.assertNotNull(savedUser.getPassword());
         Assertions.assertNotNull(savedUser.getRoles());
-        Assertions.assertNotNull(savedUser.isActive());
     }
 
     @Test
-    public void shoudUpdateUserWithSuccess(){                                      // SUCCESS -> Save Update and re find
+    public void shoudUpdateUser_Success(){
         UserDto excpectedUser = UserDto.builder()
                 .id(22)
                 .active(true)
@@ -101,13 +92,13 @@ public class UserServiceTests {
         Assertions.assertNotNull(userToUpdateVerify.isActive());
 
         Assertions.assertEquals(22,userToUpdateVerify.getId());
-        Assertions.assertEquals("modify",userToUpdateVerify.getLastname());
-        Assertions.assertEquals("modify",userToUpdateVerify.getFirstname()); // lower case sur les dto
-        Assertions.assertEquals("test@modify.test",userToUpdateVerify.getEmail());
+        Assertions.assertEquals("Modify",userToUpdateVerify.getLastname());
+        Assertions.assertEquals("Modify",userToUpdateVerify.getFirstname());
+        Assertions.assertEquals("Test@modify.test",userToUpdateVerify.getEmail());
     }
 
     @Test
-    public void shoudDeleteUserWithSuccess(){                                                       // SUCCESS -> Delete
+    public void shoudDeleteUser_Success(){
         UserDto excpectedUser = UserDto.builder()
                 .id(1)
                 .active(true)
@@ -126,7 +117,7 @@ public class UserServiceTests {
     }
 
     @Test
-    public void OnSaveEmailAtDefaultShoudThrowObjectValidationException(){                                 // FAIL -> Mail @
+    public void OnSaveEmailAtDefault_ThrowObjectValidationException(){
         UserDto excpectedUser = UserDto.builder()
                 .id(1)
                 .active(true)
@@ -140,7 +131,7 @@ public class UserServiceTests {
     }
 
     @Test
-    public void OnSaveEmailSpaceInDefaultShoudThrowObjectValidationException(){                 // FAIL -> Mail Space In
+    public void OnSaveEmailSpaceInDefault_ThrowObjectValidationException(){
         UserDto excpectedUser = UserDto.builder()
                 .id(1)
                 .active(true)
@@ -154,7 +145,7 @@ public class UserServiceTests {
     }
 
     @Test
-    public void OnSaveEmailUserWithBorderSpaceDefaultShoudThrowObjectValidationException(){ // FAIL -> Mail Border Space
+    public void OnSaveEmailUserWithBorderSpace_ThrowObjectValidationException(){
         UserDto excpectedUser = UserDto.builder()
                 .id(1)
                 .active(true)
@@ -168,7 +159,7 @@ public class UserServiceTests {
     }
 
     @Test
-    public void OnSaveUserWithToShirtPasswordDefaultShoudThrowObjectValidationException(){      // FAIL -> Pass To Shirt
+    public void OnSaveUserWithToShirtPassword_ThrowObjectValidationException(){
         UserDto excpectedUser = UserDto.builder()
                 .id(1)
                 .active(true)
@@ -182,7 +173,7 @@ public class UserServiceTests {
     }
 
     @Test
-    public void OnSaveUserWithToLongPasswordDefaultShoudThrowObjectValidationException(){        // FAIL -> Pass To Long
+    public void OnSaveUserWithToLongPassword_ThrowObjectValidationException(){
         UserDto excpectedUser = UserDto.builder()
                 .id(1)
                 .active(true)
@@ -196,13 +187,13 @@ public class UserServiceTests {
     }
 
     @Test
-    public void ShoudThrowEntityNotFound(){                                                      // FAIL -> Id Not Found
+    public void findIdNonExist_EntityNotFound(){
         Exception exception = Assertions.assertThrows(EntityNotFoundException.class,() -> userService.findById(0));
         Assertions.assertEquals("Aucun utilisateur trouvé avec cet Id : 0", exception.getMessage());
     }
 
     @Test
-    public void OnSaveTwoUserWithSameEmailShoudThrowUniqConstraintException(){              // FAIL -> Unic constraint @                                                    // Success All
+    public void OnSaveTwoUserWithSameEmail_ThrowUniqConstraintException(){
         UserDto excpectedUser1 = UserDto.builder()
                 .id(1)
                 .active(true)
